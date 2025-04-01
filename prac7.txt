@@ -1,0 +1,122 @@
+Develop a React application that includes a form with input fields for username and email address. Implement functionality to automatically focus on the username input field when the page loads.
+
+------->FocusInput.js-------
+
+import React, { useEffect, useRef } from 'react';
+export default function FocusInput() {
+  const inputRef = useRef(null);
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
+  return (
+    <div>
+      <h1>Focus Input Field</h1>
+      Username: <input type="text" ref={inputRef} />
+      <button onClick={focusInput}>Focus Input</button>
+      Email: <input type="text" />
+    </div>
+  ); 
+}
+
+
+
+Develop a React component called FormWithRef that implements a form with input fields for username and email. Use the useRef hook to persist mutable values for these input fields and to store the submitted data. The form should log the submitted data to the console when the user submits the form.
+------->FormWithRef.js-----
+
+import React, { useRef } from 'react';
+function FormWithRef() {
+    const usernameRef = useRef('');
+    const emailRef = useRef('');
+    const submittedDataRef = useRef(null);
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const username = usernameRef.current.value;
+        const email = emailRef.current.value;
+        submittedDataRef.current = { username, email };
+        usernameRef.current.value = '';
+        emailRef.current.value = '';
+        console.log('Submitted Data:', submittedDataRef.current);
+    };
+    return (
+        <div>
+            <h2>Form with Ref</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="username">Username:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        ref={usernameRef}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="email"
+                        id="email"
+                        ref={emailRef}
+                    />
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    );
+}
+export default FormWithRef;
+
+
+Develop a React application that demonstrates parent-child interaction using the useImperativeHandle hook. Create a parent component and a child component. The child component should have a method that, when called by the parent component, displays a message.
+
+------->ImperativeHandle.js------
+
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+const ChildComponent = forwardRef((props, ref) => {
+  const greetParent = () => {
+    console.log('Hello from Child Component!');
+  };
+  useImperativeHandle(ref, () => ({
+    greetParent: greetParent
+  }));
+  return (
+    <div>
+      <h3>Child Component</h3>
+    </div>
+  );
+});
+function Parent() {
+  const childRef = useRef(null);
+  const handleButtonClick = () => {
+    childRef.current.greetParent();
+  };
+  return (
+    <div>
+      <h2>Parent Component</h2>
+      <button onClick={handleButtonClick}>Greet Child</button>
+      <ChildComponent ref={childRef} />
+    </div>
+  );
+}
+export default Parent;
+
+
+------>App.js----
+
+import './App.css'
+import FocusInput from './FocusInput'
+import FormWithRef from './FormWithRef'
+import Parent from './ImperativeHandle'
+
+function App() {
+  return (
+    <>
+   <FocusInput/>
+   <FormWithRef/>
+   <Parent/>
+     </>
+  )
+}
+
+export default App

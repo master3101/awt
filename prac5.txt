@@ -1,0 +1,172 @@
+
+Define a form submission event handler is using an arrow function that prevents the default form submission behavior using **event.preventDefault()**. Update the input value using the **handleInputChange** function, which is called on every input change event.
+------->eventHandling.js------
+
+import React, {useState} from 'react';
+
+function Pr () {
+    const [inputValue,setInputValue] = useState('');
+    const handleSubmit = (event)=>{
+        event.preventDefault();
+        console.log('Submitted Value:', inputValue);
+    };
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+    return(
+        <form onSubmit={handleSubmit}>
+            <input type='text' value={inputValue} onChange={handleInputChange}/>
+            <button type="submit">Submit</button>
+            <h2>submitted value {inputValue}</h2> 
+        </form>
+    );
+}
+export default Pr;
+
+---------------
+App.js
+
+
+import React from "react";
+import Pr from "./components/eventHandling"; 
+
+function App() {
+    return (
+        <div className="App">
+            <h1>React Form Example</h1>
+            <Pr /> 
+        </div>
+    );
+}
+
+export default App;
+
+
+--------------------------------------------------------------------------------------------
+
+Define a keydown event handler is using an arrow function that checks if the Enter key is pressed and logs the input value to the console. Update the the input value using the **handleInputChange**function, which is called on every input change event.
+--------->eventHandling2.js------
+
+import React,{useState} from 'react';
+function KeyDown() {
+    const [inputValue, setInputValue] = useState('');
+    const handleKeyDown = (event) => {
+        if(event.key==="Enter"){
+            console.log('Submitted value:',inputValue);
+        }
+    };
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+    return(
+        <div>
+            <input type='text' value={inputValue} onKeyDown={handleKeyDown}
+            onChange={handleInputChange}/>
+            <p>{inputValue}</p>
+        </div>
+    )
+}
+
+export default KeyDown;
+
+--------------------------------------------------------------------------
+
+
+Take an input field to add an element into array using states.
+------->eventHandling3.js------
+
+import React from "react";
+import { useState } from "react";
+
+function MultiValuesArray(){
+    const friendsArray = ['Earth','Bright','Jeff',"Mew"]
+    const [friends,setFriends] = useState(friendsArray);
+
+    const handleFucntion = () => {
+        const newFriend = document.getElementById("friend").value
+        setFriends([...friends,newFriend])
+    }
+    return(
+        <div>
+            <h1>List</h1>
+            <ul>{friends.map((f,index) => <li key={index}> {f} </li>)}
+            </ul>
+            <input type="text" id="friend" placeholder="Enter friend name" />
+            <button onClick={handleFucntion}> Add Values</button>
+        </div>
+    )
+}
+
+export default MultiValuesArray;
+
+
+Take a button to add users, remove user and add user after a specific element
+-------------->eventHandling4.js--------
+
+import React, { useState } from "react";
+function AddRemoveArr(){
+    const [users,setUsers] = useState([
+        {id:1,username:"User 1"},
+        {id:4,username:"User 2"},
+        {id:3,username:"User 3"},
+    ]);
+    const addUser = () => {
+        const newUser = {
+            id:`${users.length + 1}`,
+            username:`User ${users.length + 1}`
+        };
+        const newUsers = [...users,newUser];
+        setUsers(newUsers)
+    };
+
+    const removeUser = (index) => () =>{
+        const newUsers = [...users];
+        console.log(newUsers);
+        newUsers.splice(index,1);
+        setUsers(newUsers);        
+    }
+
+    const addAfter = (index) => () => {
+        const newUser = {
+            id:`${users.length + 1}`,
+            username:`User ${users.length + 1}`
+        }
+        const newUsers =[...users];
+        newUsers.splice(index + 1,0,newUser)
+        console.log(newUser)
+
+        setUsers(newUsers);
+    };
+    return(
+    <>
+    <button onClick={addUser}>Add User</button>
+    {users.map((user,index)=>(
+        <div className="user" key={user.id}>
+            {user.username}
+        <button onClick={removeUser(index)}>Remove User</button>
+        <button onClick={addAfter(index)}>Add immediate next User</button>
+        </div>
+    ))}
+    </>)   
+}
+export default AddRemoveArr;
+
+-------->App.js-----------
+
+import './App.css'
+import Pr5i from './eventHandling'
+import KeyDown from './eventHandling2'
+import MultiValuesArray from './eventHandling3'
+import AddRemoveArr from './eventHandling4'
+
+function App() {
+  return (
+    <>
+    <Pr5i/>
+    <KeyDown/>
+    <MultiValuesArray/>
+    <AddRemoveArr/>
+     </>
+  )
+}
+export default App

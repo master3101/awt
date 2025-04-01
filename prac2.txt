@@ -1,0 +1,112 @@
+Stateclass.js 
+
+import React from "react"; 
+import { Component } from "react"; 
+class Message extends Component{ 
+       constructor() 
+       { 
+        super() 
+        this.state = { 
+            message: "Welcome Visitors" 
+        } 
+ 
+       }  
+    render() 
+    { 
+        return( 
+            <div> 
+                 <h1> {this.state.message}</h1> 
+                 <button onClick={()=> this.changeMessage() 
+ 
+                 }>Click here</button>  
+            </div> 
+        ) 
+    } 
+    changeMessage() 
+    { 
+        this.setState( 
+            { 
+                message:"Thank You for visiting!" 
+            } 
+        ) 
+    } 
+} 
+export default Message;
+
+------------------------
+App.js
+
+import React from "react"; 
+import Message from "./components/stateclass"; 
+
+function App() { 
+    return ( 
+        <div className="App"> 
+            <Message /> 
+        </div> 
+    ); 
+} 
+
+export default App;
+
+-------------------------------------------------------------------------------------------
+
+Counter.js
+import React from "react"; 
+import { Component } from "react"; 
+class Counter extends Component{ 
+        constructor() 
+        { 
+            super() 
+            // eslint-disable-next-line no-lone-blocks
+            { 
+                this.state = { 
+                    count: 0 
+                } 
+            } 
+        } 
+        increment(){ 
+ 
+        this.setState( (prevState) => ({ 
+            count: prevState.count + 1 
+        } 
+    ) 
+    ) 
+    console.log(this.state.count) 
+}  
+  incrementFour() 
+    { 
+        this.increment() 
+        this.increment() 
+        this.increment() 
+        this.increment() 
+        //react may group multiple state calls into a single update for better performance 
+    }  
+render() 
+{ 
+    return( 
+        <div> 
+              { this.state.count} <br></br> 
+              <button onClick={()=> this.incrementFour()}>Increment</button> 
+        </div> 
+    ) 
+} 
+}    
+export default Counter; 
+
+----------------------------------
+App.js
+
+import React from "react"; 
+import Counter from "./components/stateclass"; 
+
+function App() { 
+    return ( 
+        <div className="App"> 
+            <Counter /> 
+        </div> 
+    ); 
+} 
+
+export default App;
+
